@@ -14,7 +14,7 @@ Saves score to windows tags with other options planned
 Clone the repo into the `extensions` directory and restart the web ui:
 
 ```commandline
-git clone https://github.com/tsngo/stable-diffusion-webui-aesthetic-image-scorer extensions/aesthetic-image-scorer
+git clone --recurse-submodules https://github.com/tsngo/stable-diffusion-webui-aesthetic-image-scorer extensions/aesthetic-image-scorer
 ```
 
 After restarting the ui, see settings for options
