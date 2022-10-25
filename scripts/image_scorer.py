@@ -15,7 +15,7 @@ if platform.system() == "Windows" and not is_installed("pywin32"):
 try:
     from tools.add_tags import tag_files
 except:
-    print("Unable to load")
+    print("Aesthetic Image Scorer: Unable to load Windows tagging script")
     tag_files = None
 
 state_name = "sac+logos+ava1-l14-linearMSE.pth"
@@ -25,19 +25,6 @@ if not Path(state_name).exists():
     r = requests.get(url)
     with open(state_name, "wb") as f:
         f.write(r.content)
-
-class AestheticImageScorer:
-    def __init__(self):
-        self.ais_windows_tag = False
-
-    def set_params(self, p, ais_windows_tag=False):
-        self.ais_windows_tag = ais_windows_tag
-
-        p.extra_generation_params.update({
-            "AIS Windows Tag": ais_windows_tag,
-        })
-
-ais = AestheticImageScorer()
 
 class AestheticPredictor(nn.Module):
     def __init__(self, input_size):
@@ -57,7 +44,14 @@ class AestheticPredictor(nn.Module):
     def forward(self, x):
         return self.layers(x)
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
+try:
+    force_cpu = opts.ais_force_cpu
+except:
+    force_cpu = False
+
+if force_cpu:
+    print("Aesthtic Image Scorer: Forcing prediction model to run on CPU")
+device = "cuda" if not force_cpu and torch.cuda.is_available() else "cpu"
 # load the model you trained previously or the model available in this repo
 pt_state = torch.load(state_name, map_location=torch.device(device=device)) 
 
@@ -87,19 +81,37 @@ def get_score(image):
 def on_ui_settings():
     options = {}
     options.update(shared.options_section(('ais', "Aesthetic Image Scorer"), {
+        "ais_add_exif": OptionInfo(False, "Save score as EXIF or PNG Info Chunk"),
         "ais_windows_tag": OptionInfo(False, "Save score as tag (Windows Only)"),
+        "ais_force_cpu": OptionInfo(False, "Force CPU (Requires Custom Script Reload)"),
     }))
+    
+    opts.add_option("ais_add_exif", options["ais_add_exif"])
     opts.add_option("ais_windows_tag", options["ais_windows_tag"])
+    opts.add_option("ais_force_cpu", options["ais_force_cpu"])
 
 
-def on_save_imaged(image, p, fullfn, txt_fullfn):
-    score = round(get_score(image), 1)
-    if opts.ais_windows_tag:
+def on_before_image_saved(image, p, **kwargs):
+    if opts.ais_add_exif:
+        score = round(get_score(image), 1)
+        if "existing_info" not in kwargs or kwargs["existing_info"] is None:
+            kwargs["existing_info"] = {}
+        kwargs["existing_info"].update({
+            "aesthetic_score": score,
+        })
+    return image, p, kwargs
+
+def on_image_saved(image, p, fullfn, txt_fullfn, **kwargs):
+    if "existing_info" in kwargs and kwargs["existing_info"] is not None and "aesthetic_score" in kwargs["existing_info"]:
+        score = kwargs["existing_info"]["aesthetic_score"]
+    else:
+        score = round(get_score(image), 1)
+    if score is not None and opts.ais_windows_tag:
         if tag_files is not None:
             tags = [f"aesthetic_score_{score}"]
             tag_files(filename=fullfn, tags=tags)
         else:
-            print("Unable to load windows tagging script")
+            print("Aesthetic Image Scorer: Unable to load Windows tagging script")
 
 class AestheticImageScorer(scripts.Script):
     def title(self):
@@ -112,7 +124,8 @@ class AestheticImageScorer(scripts.Script):
         return []
 
     def process(self, p):
-        ais.set_params(p, bool(opts.ais_windows_tag))
+        pass
 
 script_callbacks.on_ui_settings(on_ui_settings)
-script_callbacks.on_save_imaged(on_save_imaged)
+script_callbacks.on_before_image_saved(on_before_image_saved)
+script_callbacks.on_image_saved(on_image_saved)
