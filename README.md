@@ -2,6 +2,8 @@
 
 ![](tag_group_by.png)
 
+Extension for https://github.com/AUTOMATIC1111/stable-diffusion-webui
+
 Calculates aestetic score for generated images using [CLIP+MLP Aesthetic Score Predictor](https://github.com/christophschuhmann/improved-aesthetic-predictor) based on [Chad Scorer](https://github.com/grexzen/SD-Chad/blob/main/chad_scorer.py)
 
 See [Discussion](https://github.com/AUTOMATIC1111/stable-diffusion-webui/discussions/1831)
