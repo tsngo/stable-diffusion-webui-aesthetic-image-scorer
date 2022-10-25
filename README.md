@@ -17,8 +17,11 @@ Clone the repo into the `extensions` directory and restart the web ui:
 git clone https://github.com/tsngo/stable-diffusion-webui-aesthetic-image-scorer extensions/aesthetic-image-scorer
 ```
 
+After restarting the ui, see settings for options
+
 ## Features
 - Save score as EXIF or PNG Info Chunk (Only PNG Chunk Info currently)
 - Save score as tag (Windows Only)
     - Added to tags as `aesthetic_score_5.9`
     - JPG supports by default. PNG tags requires a 3rd party software like [File Metadata](https://github.com/Dijji/FileMeta/releases)
+- Run prediction using CPU
