@@ -1,8 +1,10 @@
+import os
 from modules import sd_samplers, shared, scripts, script_callbacks
 from modules.script_callbacks import ImageSaveParams
 import modules.images as images
 from modules.processing import Processed, process_images, StableDiffusionProcessing
 from modules.shared import opts, OptionInfo
+from modules.paths import script_path
 
 from pathlib import Path
 import torch
@@ -105,6 +107,7 @@ def on_before_image_saved(params: ImageSaveParams):
 
 
 def on_image_saved(params: ImageSaveParams):
+    filename = os.path.realpath(os.path.join(script_path, params.filename))
     if "aesthetic_score" in params.pnginfo:
         score = params.pnginfo["aesthetic_score"]
     else:
@@ -112,7 +115,7 @@ def on_image_saved(params: ImageSaveParams):
     if score is not None and opts.ais_windows_tag:
         if tag_files is not None:
             tags = [f"aesthetic_score_{score}"]
-            tag_files(filename=params.filename, tags=tags)
+            tag_files(filename=filename, tags=tags)
         else:
             print("Aesthetic Image Scorer: Unable to load Windows tagging script")
 
