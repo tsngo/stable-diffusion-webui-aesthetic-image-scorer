@@ -17,6 +17,11 @@ Clone the repo into the `extensions` directory and restart the web ui:
 git clone --recurse-submodules https://github.com/tsngo/stable-diffusion-webui-aesthetic-image-scorer extensions/aesthetic-image-scorer
 ```
 
+To upgrade do:
+
+```commandline
+git pull
+```
 After restarting the ui, see settings for options
 
 ## Features
@@ -25,3 +30,11 @@ After restarting the ui, see settings for options
     - Added to tags as `aesthetic_score_5.9`
     - JPG supports by default. PNG tags requires a 3rd party software like [File Metadata](https://github.com/Dijji/FileMeta/releases)
 - Run prediction using CPU
+
+## FAQ
+- There is a bug currently preventing writing to PNG Info Chuck
+    - See [AUTOMATIC1111/stable-diffusion-webui#3723](https://github.com/AUTOMATIC1111/stable-diffusion-webui/pull/3723)
+- If seeing this error `Aesthetic Image Scorer: Unable to write tag or category`
+    - probably related to above bug but the windows tagging should still work
+- If seeing this error `Aesthetic Image Scorer: Unable to load Windows tagging script from tools directory`
+    - The tools submodule didn't get pulled. Make sure to use follow the installation instructions
