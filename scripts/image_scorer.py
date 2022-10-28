@@ -13,12 +13,13 @@ import clip
 import platform
 from launch import is_installed, run_pip
 
+extension_name = "Aesthetic Image Scorer"
 if platform.system() == "Windows" and not is_installed("pywin32"):
     run_pip(f"install pywin32", "pywin32")
 try:
     from tools.add_tags import tag_files
 except:
-    print("Aesthetic Image Scorer: Unable to load Windows tagging script")
+    print(f"{extension_name}: Unable to load Windows tagging script from tools directory")
     tag_files = None
 
 state_name = "sac+logos+ava1-l14-linearMSE.pth"
@@ -55,7 +56,7 @@ except:
     force_cpu = False
 
 if force_cpu:
-    print("Aesthtic Image Scorer: Forcing prediction model to run on CPU")
+    print(f"{extension_name}: Forcing prediction model to run on CPU")
 device = "cuda" if not force_cpu and torch.cuda.is_available() else "cpu"
 # load the model you trained previously or the model available in this repo
 pt_state = torch.load(state_name, map_location=torch.device(device=device))
@@ -87,7 +88,7 @@ def get_score(image):
 
 def on_ui_settings():
     options = {}
-    options.update(shared.options_section(('ais', "Aesthetic Image Scorer"), {
+    options.update(shared.options_section(('ais', extension_name), {
         "ais_add_exif": OptionInfo(False, "Save score as EXIF or PNG Info Chunk"),
         "ais_windows_tag": OptionInfo(False, "Save score as tag (Windows Only)"),
         "ais_force_cpu": OptionInfo(False, "Force CPU (Requires Custom Script Reload)"),
@@ -115,14 +116,14 @@ def on_image_saved(params: ImageSaveParams):
     if score is not None and opts.ais_windows_tag:
         if tag_files is not None:
             tags = [f"aesthetic_score_{score}"]
-            tag_files(filename=filename, tags=tags)
+            tag_files(filename=filename, tags=tags, log_prefix=f"{extension_name}: ")
         else:
-            print("Aesthetic Image Scorer: Unable to load Windows tagging script")
+            print(f"{extension_name}: Unable to load tagging script")
 
 
 class AestheticImageScorer(scripts.Script):
     def title(self):
-        return "Aesthetic Image Scorer"
+        return extension_name
 
     def show(self, is_img2img):
         return scripts.AlwaysVisible
