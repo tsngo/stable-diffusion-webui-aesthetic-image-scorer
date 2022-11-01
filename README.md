@@ -14,21 +14,37 @@ Saves score to windows tags with other options planned
 Clone the repo into the `extensions` directory and restart the web ui:
 
 ```commandline
-git clone --recurse-submodules https://github.com/tsngo/stable-diffusion-webui-aesthetic-image-scorer extensions/aesthetic-image-scorer
+git clone https://github.com/tsngo/stable-diffusion-webui-aesthetic-image-scorer extensions/aesthetic-image-scorer
 ```
+
+or use the `Extensions` tab of the webui to `Install from URL`
+
+```commandline
+https://github.com/tsngo/stable-diffusion-webui-aesthetic-image-scorer
+```
+
 
 To upgrade do:
 
 ```commandline
 git pull
 ```
+
+or use `Extensions` tab to upgrade.
+
 After restarting the ui, see settings for options
 
 ## Features
-- Save score as EXIF or PNG Info Chunk (Only PNG Chunk Info currently)
-- Save score as tag (Windows Only)
+![](settings_section.png)
+- Save aesthetic score and other things
+    - `hash` is a md5 hash of prompt, negative prompt, dimensions, steps, cfg scale, seed, model hash (experimental). Don't rely on this. 
+    - rest should be obvious
+- Save as EXIF or PNG Info Chunk (Only PNG Chunk Info currently)
+- Save as tag (Windows Only)
     - Added to tags as `aesthetic_score_5.9`
     - JPG supports by default. PNG tags requires a 3rd party software like [File Metadata](https://github.com/Dijji/FileMeta/releases)
+- Save as category (Windows Only)
+- Save as generation parameter text
 - Run prediction using CPU
 
 ## FAQ
@@ -37,4 +53,4 @@ After restarting the ui, see settings for options
 - If seeing this error `Aesthetic Image Scorer: Unable to write tag or category`
     - probably related to above bug but the windows tagging should still work
 - If seeing this error `Aesthetic Image Scorer: Unable to load Windows tagging script from tools directory`
-    - The tools submodule didn't get pulled. Make sure to use follow the installation instructions
+    - check if the tools directory has files. Submodules no longer required.
