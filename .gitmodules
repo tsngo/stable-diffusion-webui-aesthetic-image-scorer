@@ -1,3 +1,0 @@
-[submodule "tools"]
-	path = tools
-	url = https://github.com/tsngo/stable-diffusion-webui-tools.git
