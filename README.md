@@ -42,12 +42,13 @@ After restarting the ui, see settings for options
 - Save as EXIF or PNG Info Chunk (Only PNG Chunk Info currently)
 - Save as tag (Windows Only)
     - Added to tags as `aesthetic_score_5.9`
-    - JPG supports by default. PNG tags requires a 3rd party software like [File Meta](https://github.com/Dijji/FileMeta/releases). [Walkthrough](https://www.thewindowsclub.com/enable-tags-for-unsupported-files-windows) to add tagging for unsupported filetypes.
+    - JPG supports by default. PNG tags requires a 3rd party software like [File Meta](https://github.com/Dijji/FileMeta/releases). Here is a [walkthrough](https://www.thewindowsclub.com/enable-tags-for-unsupported-files-windows) to add tagging for unsupported filetypes.
 - Save as category (Windows Only)
 - Save as generation parameter text
 - Run prediction using CPU
 
-## FAQ
+## FAQs
+- If you want to add score to existing images, try running Extra->Batch from directory without upscaling. The new images will get the score.
 - If seeing this error `Aesthetic Image Scorer: Unable to write tag or category`
     - Make sure you're using the latest webui and this extension
     - If still seeing this, post your settings from the settings page, your OS and whether you're saving PNG or JPG
