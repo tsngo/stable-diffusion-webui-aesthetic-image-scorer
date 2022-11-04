@@ -42,7 +42,7 @@ After restarting the ui, see settings for options
 - Save as EXIF or PNG Info Chunk (Only PNG Chunk Info currently)
 - Save as tag (Windows Only)
     - Added to tags as `aesthetic_score_5.9`
-    - JPG supports by default. PNG tags requires a 3rd party software like [File Meta](https://github.com/Dijji/FileMeta/releases)
+    - JPG supports by default. PNG tags requires a 3rd party software like [File Meta](https://github.com/Dijji/FileMeta/releases). [Walkthrough](https://www.thewindowsclub.com/enable-tags-for-unsupported-files-windows) to add tagging for unsupported filetypes.
 - Save as category (Windows Only)
 - Save as generation parameter text
 - Run prediction using CPU
