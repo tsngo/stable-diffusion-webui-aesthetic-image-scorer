@@ -172,7 +172,7 @@ class AISGroups:
                 if choice in choices_selected:
                     choice_values.update({choice: processor(params)})
 
-            if "seed" in choice_values and int(choice_values["seed"]) == -1:
+            if "seed" in choice_values and choice_values["seed"] is not None and int(choice_values["seed"]) == -1:
                 choice_values["seed"] = int(parsed_info["Seed"]) if "Seed" in parsed_info else int(choice_values["seed"])
             
             for group in self.groups:
@@ -251,7 +251,7 @@ def on_image_saved(params: ImageSaveParams):
     if tag_files is not None:
         tag_files(filename=filename, tags=applied["tags"], categories=applied["categories"],
                     log_prefix=f"{extension_name}: ")
-    else:
+    elif platform.system() == "Windows":
         print(f"{extension_name}: Unable to load tagging script")
 
 class AestheticImageScorer(scripts.Script):

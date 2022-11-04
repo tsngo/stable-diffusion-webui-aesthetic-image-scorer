@@ -1,3 +1,4 @@
+import platform
 import sys
 # requires pywin32 (See requirements.txt. Supports Windows only obviously)
 # also recommend FileMeta https://github.com/Dijji/FileMeta to allow tags for PNG
@@ -51,7 +52,7 @@ def set_property(file="", property="System.Keywords", values=[], remove_values=[
     return ps
 
 def tag_files(files_glob="", tags=[], remove_tags=[], remove_all_tags=False, filename="", comment="", categories=[], remove_categories=[], remove_all_categories=False, log_prefix=""):
-    if propsys == None or shellcon == None:
+    if propsys == None or shellcon == None or platform.system() != "Windows":
         return
 
     if files_glob=="":
@@ -65,7 +66,8 @@ def tag_files(files_glob="", tags=[], remove_tags=[], remove_all_tags=False, fil
                               remove_values=remove_tags, remove_all=remove_all_tags)
             ps = set_property(file=file, property="System.Category", values=categories,
                               remove_values=remove_categories, remove_all=remove_all_categories, ps=ps)
-            ps.Commit()
+            if ps is not None:
+                ps.Commit()
         except:
             print(f"{log_prefix}Unable to write tag or category for {file}")
 
