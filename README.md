@@ -42,15 +42,14 @@ After restarting the ui, see settings for options
 - Save as EXIF or PNG Info Chunk (Only PNG Chunk Info currently)
 - Save as tag (Windows Only)
     - Added to tags as `aesthetic_score_5.9`
-    - JPG supports by default. PNG tags requires a 3rd party software like [File Metadata](https://github.com/Dijji/FileMeta/releases)
+    - JPG supports by default. PNG tags requires a 3rd party software like [File Meta](https://github.com/Dijji/FileMeta/releases)
 - Save as category (Windows Only)
 - Save as generation parameter text
 - Run prediction using CPU
 
 ## FAQ
-- There is a bug currently preventing writing to PNG Info Chuck
-    - See [AUTOMATIC1111/stable-diffusion-webui#3723](https://github.com/AUTOMATIC1111/stable-diffusion-webui/pull/3723)
 - If seeing this error `Aesthetic Image Scorer: Unable to write tag or category`
-    - probably related to above bug but the windows tagging should still work
+    - Make sure you're using the latest webui and this extension
+    - If still seeing this, post your settings from the settings page, your OS and whether you're saving PNG or JPG
 - If seeing this error `Aesthetic Image Scorer: Unable to load Windows tagging script from tools directory`
-    - check if the tools directory has files. Submodules no longer required.
+    - Check if the tools directory has add_tags.py
