@@ -94,7 +94,7 @@ class AISGroup:
     def __init__(self, name="", apply_choices=lambda choice, choice_values: {"tags": [f"{choice}_{choice_values[choice]}"]}, default=[]):
         gen_params = lambda p: {
             "steps": p.steps,
-            "sampler": sd_samplers.samplers[p.sampler_index].name,
+            "sampler": p.sampler_name,
             "cfg_scale": p.cfg_scale,
             "seed": p.seed,
             "width": p.width,
@@ -105,7 +105,7 @@ class AISGroup:
         }
         self.choice_processors = {
             "aesthetic_score": lambda params: params.pnginfo["aesthetic_score"] if "aesthetic_score" in params.pnginfo else round(get_score(params.image), 1),
-            "sampler": lambda params: sd_samplers.samplers[params.p.sampler_index].name if params.p is not None and params.p.sampler else None,
+            "sampler": lambda params: params.p.sampler_name if params.p is not None and params.p.sampler else None,
             "cfg_scale": lambda params: params.p.cfg_scale if params.p is not None and params.p.cfg_scale else None,
             "sd_model_hash": lambda params: shared.sd_model.sd_model_hash,
             "seed": lambda params: str(int(params.p.seed)) if params.p is not None and params.p.seed else None,
