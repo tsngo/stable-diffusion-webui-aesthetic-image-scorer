@@ -1,6 +1,7 @@
 import copy
 from hashlib import md5
 import json
+import logging
 import os
 from modules import sd_samplers, shared, scripts, script_callbacks
 from modules.script_callbacks import ImageSaveParams
@@ -24,7 +25,7 @@ if platform.system() == "Windows" and not is_installed("pywin32"):
 try:
     from tools.add_tags import tag_files
 except:
-    print(f"{extension_name}: Unable to load Windows tagging script from tools directory")
+    logging.exception(f"{extension_name}: Unable to load Windows tagging script from tools directory")
     tag_files = None
 
 state_name = "sac+logos+ava1-l14-linearMSE.pth"

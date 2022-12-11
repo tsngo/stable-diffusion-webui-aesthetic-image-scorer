@@ -1,3 +1,4 @@
+import logging
 import platform
 import sys
 # requires pywin32 (See requirements.txt. Supports Windows only obviously)
@@ -69,7 +70,7 @@ def tag_files(files_glob="", tags=[], remove_tags=[], remove_all_tags=False, fil
             if ps is not None:
                 ps.Commit()
         except:
-            print(f"{log_prefix}Unable to write tag or category for {file}")
+            logging.exception(f"{log_prefix}Unable to write tag or category for {file}")
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--files-glob", type=str, default="", help="glob pattern to files to tag", required=True)
