@@ -240,10 +240,12 @@ def on_before_image_saved(params: ImageSaveParams):
         for label, value in applied["info"].items():
             parts.append(f"{label}: {value}")
         if len(parts) > 0:
-            if len(params.pnginfo["parameters"]) > 0:
-                params.pnginfo["parameters"] += ", "
-            params.pnginfo["parameters"] += f"{', '.join(parts)}\n"
-    
+            try:
+                if len(params.pnginfo["parameters"]) > 0:
+                    params.pnginfo["parameters"] += ", "
+                params.pnginfo["parameters"] += f"{', '.join(parts)}\n"
+            except:
+                params.pnginfo["parameters"] = f"{', '.join(parts)}\n"
     return params
         
 def on_image_saved(params: ImageSaveParams):
